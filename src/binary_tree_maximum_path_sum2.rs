@@ -27,6 +27,14 @@ impl Solution {
     }
 }
 
+//The first part of the result is the max (non empty) path of the tree (None used only for empty tree: if left or right is None).
+//It is stated that the path must contain at least one node. None means that there is no node 
+//This prevents the case where all values are negative to return 0 as a solution.
+//
+//The second part of the result is the sum of the max path of the tree which has the root as a end. This path can be empty.
+//
+//The second parameter is used to recursively compute the max path including the root node
+//The first parameter is used to remember of the max path of each child node
 fn max_path_sum2(root: Rc<RefCell<TreeNode>>) -> (Option<i32>, i32) {
     let root = root.borrow();
     
@@ -35,6 +43,7 @@ fn max_path_sum2(root: Rc<RefCell<TreeNode>>) -> (Option<i32>, i32) {
     (Some(max_opt(max_opt(root.val+max_root+max_root2, max1), max2)), 0.max(root.val+0.max(max_root).max(max_root2)))
 }
 
+//Helper function: optional maximum
 fn max_opt<T: Ord>(v1: T, v2: Option<T>) -> T {
     match v2 {
         None => v1,
