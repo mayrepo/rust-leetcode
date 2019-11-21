@@ -16,22 +16,23 @@ impl Solution {
                 //[min1   max1] num [min2   max2]
                 //
                 //After:
-                //[min                       max]
+                //[min1                     max2]
                 
-                //If one or two of the sides do not exist, we replace max or min by num
+                //We try to map num-1 with max1 to get min1.
+                //We try to map num+1 with min2 to get max2.
+                //If one or two of the sides do not exist, we replace min1 or max2 by num
                 
                 //The case where num falls into an existing sequence, it will create a new sequence that will remain strictly inside the other one because of the previous condition.
                 //There could even be a tree of sequences where parents nodes contain children nodes.
-                
                 //By contruction two sequences can not overlap except for the case of inclusion.
                 //The final result would remain unaffected.
                 
-                let min = maxs.remove(&(num-1)).map(|s: Rc<Sequence>| s.min).unwrap_or(num);
-                let max = mins.remove(&(num+1)).map(|s: Rc<Sequence>| s.max).unwrap_or(num);
+                let min1 = maxs.remove(&(num-1)).map(|s: Rc<Sequence>| s1.min).unwrap_or(num);
+                let max2 = mins.remove(&(num+1)).map(|s: Rc<Sequence>| s2.max).unwrap_or(num);
 
-                let new_sequence = Rc::new(Sequence{min, max});
-                mins.insert(min, new_sequence.clone());
-                maxs.insert(max, new_sequence.clone());
+                let new_sequence = Rc::new(Sequence{min1, max2});
+                mins.insert(min1, new_sequence.clone());
+                maxs.insert(max2, new_sequence.clone());
             }
             
         }
